@@ -1,0 +1,33 @@
+name: GeneralUtils
+version: '${version}'
+main: me.kidneybean.generalutils.GeneralUtils
+api-version: 1.18
+authors: [ kidneybean ]
+description: A general utilities plugin made by kidney bean
+commands:
+  generalutils:
+    description: Get plugin information.
+    usage: /<command> [info|reload]
+    aliases: ['gutils', 'gu']
+  bring:
+    description: Bring players to you.
+    usage: /<command> [online player]
+    permission: generalutils.bring
+  to:
+    description: Go to players.
+    usage: /<command> [online player]
+    permission: generalutils.to
+  back:
+    description: Go to your location pre-teleport
+    usage: /<command>
+
+permissions:
+  generalutils.reload:
+    description: Allow reloading of the config
+    default: op
+  generalutils.bring:
+    description: Allow bringing of players
+    default: op
+  generalutils.to:
+    description: Allow going to players
+    default: op

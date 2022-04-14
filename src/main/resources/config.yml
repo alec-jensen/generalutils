@@ -1,0 +1,13 @@
+# GeneralUtils config
+# by kidney bean
+
+# DO NOT CHANGE THIS VALUE
+config-version: 1.0
+
+# You can edit these values
+
+permission-message: '&4You don''t have permission to use this!'
+# Message that shows when player has insufficient permissions
+
+back-enabled: true
+# Allows usage of /back command.
