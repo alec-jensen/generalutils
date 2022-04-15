@@ -20,6 +20,10 @@ commands:
   back:
     description: Go to your location pre-teleport
     usage: /<command>
+  kickall:
+    description: Kick every online player
+    usage: /<command>
+    permission: generalutils.kickall
 
 permissions:
   generalutils.reload:
@@ -30,4 +34,10 @@ permissions:
     default: op
   generalutils.to:
     description: Allow going to players
+    default: op
+  generalutils.kickall:
+    description: Allow kickall command usage
+    default: op
+  generalutils.kickall.exempt:
+    description: Don't be kicked when kickall is used (can be disabled in config)
     default: op

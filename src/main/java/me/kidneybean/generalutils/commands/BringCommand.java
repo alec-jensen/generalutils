@@ -1,7 +1,6 @@
 package me.kidneybean.generalutils.commands;
 
 import me.kidneybean.generalutils.GeneralUtils;
-import me.kidneybean.generalutils.files.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -34,8 +33,6 @@ public class BringCommand implements CommandExecutor {
                 }
                 Location location = player.getLocation();
                 selPlayer.teleport(location);
-            } else {
-                player.sendMessage(Config.permissionMessage());
             }
         } else {
             generalUtils.getLogger().info(ChatColor.RED + "This command can only be executed by a player!");

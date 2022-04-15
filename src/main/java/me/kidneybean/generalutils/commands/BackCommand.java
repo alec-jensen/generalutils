@@ -1,6 +1,5 @@
 package me.kidneybean.generalutils.commands;
 
-import me.kidneybean.generalutils.files.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -21,7 +20,7 @@ public class BackCommand implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player player) {
-            if (Config.getConfig().getString("back-enabled").equals("true")) {
+            if (Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("back-enabled").equals("true")) {
                 if (backDict.containsKey(player.getUniqueId())) {
                     Location location = backDict.get(player.getUniqueId());
                     player.teleport(location);
@@ -39,7 +38,6 @@ public class BackCommand implements CommandExecutor, Listener {
     public void PlayerTeleportEvent(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
         Location from = event.getFrom();
-        player.sendMessage(from.toString());
         backDict.put(player.getUniqueId(), from);
     }
 }
