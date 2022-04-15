@@ -39,7 +39,6 @@ public class BackCommand implements CommandExecutor, Listener {
     public void PlayerTeleportEvent(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
         Location from = event.getFrom();
-        player.sendMessage(from.toString());
         backDict.put(player.getUniqueId(), from);
     }
 }

@@ -25,6 +25,7 @@ public final class GeneralUtils extends JavaPlugin {
         BackCommand backCommand = new BackCommand();
         Objects.requireNonNull(getServer().getPluginCommand("back")).setExecutor(backCommand);
         getServer().getPluginManager().registerEvents(backCommand, this);
+        Objects.requireNonNull(getServer().getPluginCommand("kickall")).setExecutor(new KickallCommand());
 
         getLogger().info(ChatColor.GREEN + "\nGeneralUtils plugin by kidney bean\nVersion: " + pdf.getVersion() + "\nConfig version: " + Config.getConfig().getString("config-version"));
     }
@@ -32,5 +33,6 @@ public final class GeneralUtils extends JavaPlugin {
     @Override
     public void onDisable() {
         getLogger().info(ChatColor.GREEN + "Goodbye!");
+        Config.saveConfig();
     }
 }

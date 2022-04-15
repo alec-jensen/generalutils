@@ -2,12 +2,20 @@
 # by kidney bean
 
 # DO NOT CHANGE THIS VALUE
-config-version: 1.0
+config-version: 1.0-SNAPSHOT
+# DO NOT CHANGE THIS VALUE
 
 # You can edit these values
 
-permission-message: '&4You don''t have permission to use this!'
-# Message that shows when player has insufficient permissions
-
 back-enabled: true
 # Allows usage of /back command.
+
+kickall-exempt-enabled: true
+# Disable kickall exemption
+
+messages:
+  permission-message: 'You don''t have permission to use this!'
+  # Message that shows when player has insufficient permissions
+
+  kickall-message: 'Kickall command was used!'
+  # Kick reason for kickall usage

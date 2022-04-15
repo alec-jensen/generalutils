@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +32,12 @@ public class Config {
             }
         }
         configFile = YamlConfiguration.loadConfiguration(file);
+
+        PluginDescriptionFile pdf = plugin.getDescription();
+        Bukkit.getLogger().info("Trying to update config.");
+        plugin.saveDefaultConfig();
+        Bukkit.getLogger().info(ChatColor.GREEN + "Config updated.");
+        reloadConfig();
     }
 
     public static FileConfiguration getConfig() {
@@ -50,6 +57,6 @@ public class Config {
     }
 
     public static String permissionMessage() {
-        return getConfig().getString("permission-message");
+        return getConfig().getString("messages.permission-message");
     }
 }

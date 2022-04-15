@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 
@@ -34,7 +35,7 @@ public class GeneralUtilsCommand implements CommandExecutor {
                 } else {
                     player.sendMessage(Config.permissionMessage());
                 }
-            } else {
+            } else if (sender instanceof ConsoleCommandSender) {
                 generalUtils.getLogger().info(ChatColor.GREEN + "Successfully reloaded config!");
             }
             return true;
