@@ -1,6 +1,5 @@
 package me.kidneybean.generalutils.commands;
 
-import me.kidneybean.generalutils.files.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,26 +14,26 @@ public class KickallCommand implements CommandExecutor {
             if (player.hasPermission("generalutils.kickall")) {
                 for (Player loopPlayer : Bukkit.getOnlinePlayers()) {
                     if (loopPlayer.hasPermission("generalutils.kickall.exempt")) {
-                        if (!Config.getConfig().getBoolean("kickall-exempt-enabled")) {
-                            loopPlayer.kickPlayer(Config.getConfig().getString("messages.kickall-message"));
+                        if (!Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getBoolean("kickall-exempt-enabled")) {
+                            loopPlayer.kickPlayer(Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("messages.kickall-message"));
                         } else {
                             return true;
                         }
                     } else {
-                        loopPlayer.kickPlayer(Config.getConfig().getString("messages.kickall-message"));
+                        loopPlayer.kickPlayer(Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("messages.kickall-message"));
                     }
                 }
             }
         } else if (sender instanceof ConsoleCommandSender) {
             for (Player loopPlayer : Bukkit.getOnlinePlayers()) {
                 if (loopPlayer.hasPermission("generalutils.kickall.exempt")) {
-                    if (!Config.getConfig().getBoolean("kickall-exempt-enabled")) {
-                        loopPlayer.kickPlayer(Config.getConfig().getString("messages.kickall-message"));
+                    if (!Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getBoolean("kickall-exempt-enabled")) {
+                        loopPlayer.kickPlayer(Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("messages.kickall-message"));
                     } else {
                         return true;
                     }
                 } else {
-                    loopPlayer.kickPlayer(Config.getConfig().getString("messages.kickall-message"));
+                    loopPlayer.kickPlayer(Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("messages.kickall-message"));
                 }
             }
         }
