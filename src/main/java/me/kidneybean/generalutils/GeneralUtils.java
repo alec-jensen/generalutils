@@ -11,6 +11,7 @@ import me.kidneybean.generalutils.utils.InfoTabCompleter;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bstats.bukkit.Metrics;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,9 @@ public final class GeneralUtils extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        int pluginId = 14930;
+        Metrics metrics = new Metrics(this, pluginId);
+
         PluginDescriptionFile pdf = getDescription();
 
         try {
