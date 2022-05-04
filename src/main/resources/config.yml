@@ -7,10 +7,9 @@ kickall-exempt-enabled: true
 # Disable kickall exemption
 
 messages:
-  permission-message: 'You don''t have permission to use this!'
-  # Message that shows when player has insufficient permissions
+  # Color codes are supported here. placeholderapi implementation is planned, but not added yet
 
-  kickall-message: 'Kickall command was used!'
+  kickall-message: '&4Kickall command was used!'
   # Kick reason for kickall usage
 
   staffchat-prefix: '&5[StaffChat] '

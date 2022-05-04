@@ -22,7 +22,7 @@ public class GeneralUtilsCommand implements CommandExecutor {
         if (args.length == 0 || args[0].equalsIgnoreCase("info")) {
             PluginDescriptionFile pdf = this.generalUtils.getDescription();
             if (sender instanceof Player player) {
-                player.sendMessage(ChatColor.GREEN + "\nGeneralUtils plugin by kidney bean\nVersion: " + pdf.getVersion() + "\nConfig version: " + Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("config-version"));
+                player.sendMessage(ChatColor.GREEN + "GeneralUtils plugin by kidney bean\nVersion: " + pdf.getVersion() + "\nConfig version: " + Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("config-version"));
             } else {
                 generalUtils.getLogger().info(ChatColor.GREEN + "\nGeneralUtils plugin by kidney bean\nVersion: " + pdf.getVersion() + "\nConfig version: " + Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("config-version"));
             }
