@@ -24,6 +24,11 @@ commands:
     description: Kick every online player
     usage: /<command>
     permission: generalutils.kickall
+  staffchat:
+    description: Send a message in staff chat
+    usage: /<command> <message>
+    aliases: ['sc']
+    permission: generalutils.staffchat
 
 permissions:
   generalutils.reload:
@@ -40,4 +45,7 @@ permissions:
     default: op
   generalutils.kickall.exempt:
     description: Don't be kicked when kickall is used (can be disabled in config)
+    default: op
+  generalutils.staffchat:
+    description: Send and recieve staffchat messages
     default: op

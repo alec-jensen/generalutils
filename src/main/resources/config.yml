@@ -1,7 +1,5 @@
 # GeneralUtils config
 
-# You can edit these values
-
 back-enabled: true
 # Allows usage of /back command.
 
@@ -14,3 +12,12 @@ messages:
 
   kickall-message: 'Kickall command was used!'
   # Kick reason for kickall usage
+
+  staffchat-prefix: '&5[StaffChat] '
+  # Prefix for staffchat ([Prefix] sender > message)
+
+
+
+
+# DO NOT CHANGE THIS
+config-version: 1
