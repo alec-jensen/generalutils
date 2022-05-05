@@ -4,6 +4,7 @@ main: me.kidneybean.generalutils.GeneralUtils
 api-version: 1.18
 authors: [ kidneybean ]
 description: A general utilities plugin made by kidney bean
+softdepend: [PlaceholderAPI]
 commands:
   generalutils:
     description: Get plugin information.

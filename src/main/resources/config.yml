@@ -7,13 +7,13 @@ kickall-exempt-enabled: true
 # Disable kickall exemption
 
 messages:
-  # Color codes are supported here. placeholderapi implementation is planned, but not added yet
+  # Color codes are supported here. PlaceholderAPI will work for all messages if installed.
 
   kickall-message: '&4Kickall command was used!'
   # Kick reason for kickall usage
 
-  staffchat-prefix: '&5[StaffChat] '
-  # Prefix for staffchat ([Prefix] sender > message)
+  staffchat-prefix: '&5[StaffChat] &l<sender>&r&5 >&f '
+  # Prefix for staffchat (<sender> is a placeholder for the senders username.)
 
 
 

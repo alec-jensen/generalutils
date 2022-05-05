@@ -1,5 +1,6 @@
 package me.kidneybean.generalutils.commands;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -15,7 +16,7 @@ public class StaffChatCommand implements CommandExecutor {
         if (sender instanceof Player) {
             for (Player loopPlayer : getOnlinePlayers()) {
                 if (loopPlayer.hasPermission("generalutils.staffchat")) {
-                    loopPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("messages.staffchat-prefix")) + ChatColor.GOLD + ChatColor.ITALIC + sender.getName() + ChatColor.DARK_AQUA + " > " + String.join(" ", args));
+                    loopPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(((Player) sender).getPlayer(), Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("messages.staffchat-prefix")).replace("<sender>", ((Player) sender).getDisplayName())) + String.join(" ", args));
                 }
             }
         } else {
