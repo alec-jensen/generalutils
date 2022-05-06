@@ -20,7 +20,7 @@ public class StaffChatCommand implements CommandExecutor {
                 }
             }
         } else {
-            Bukkit.getLogger().warning("StaffChat cannot be used by console");
+            Bukkit.getLogger().warning("This command can only be executed by a player!");
         }
         return true;
     }
