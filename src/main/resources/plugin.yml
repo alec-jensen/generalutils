@@ -30,6 +30,14 @@ commands:
     usage: /<command> <message>
     aliases: ['sc']
     permission: generalutils.staffchat
+  announce:
+    description: Send an announcement to the whole server
+    usage: /<command> <message>
+    permission: generalutils.announce
+  ban:
+    description: An alternate ban command, to prevent /ban @a.
+    usage: /<command> <player> <message>
+    permission: ban
 
 permissions:
   generalutils.reload:
@@ -49,4 +57,7 @@ permissions:
     default: op
   generalutils.staffchat:
     description: Send and recieve staffchat messages
+    default: op
+  generalutils.announce:
+    description: Allow people to send announcements
     default: op

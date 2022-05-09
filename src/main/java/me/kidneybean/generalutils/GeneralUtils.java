@@ -8,22 +8,42 @@ import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import me.kidneybean.generalutils.commands.*;
 import me.kidneybean.generalutils.utils.InfoTabCompleter;
+import me.kidneybean.generalutils.utils.UnregisterCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bstats.bukkit.Metrics;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
+import java.lang.reflect.Field;
 
 import static org.bukkit.Bukkit.getPluginManager;
 
 public final class GeneralUtils extends JavaPlugin {
 
+    private static GeneralUtils instance;
+
+    public static GeneralUtils getInstance() {
+        return GeneralUtils.instance;
+    }
+
+    BanUtils banUtils = new BanUtils();
+
     @Override
     public void onEnable() {
+        GeneralUtils.instance = this;
+
+        // bStats setup
+
         int pluginId = 14930;
         Metrics metrics = new Metrics(this, pluginId);
 
@@ -38,17 +58,29 @@ public final class GeneralUtils extends JavaPlugin {
             ex.printStackTrace();
         }
 
+        FileConfiguration config = Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig();
+
         // Registering commands and events with the server.
 
-        Objects.requireNonNull(getServer().getPluginCommand("generalutils")).setExecutor(new GeneralUtilsCommand(this));
-        Objects.requireNonNull(getServer().getPluginCommand("generalutils")).setTabCompleter(new InfoTabCompleter());
-        Objects.requireNonNull(getServer().getPluginCommand("bring")).setExecutor(new BringCommand(this));
-        Objects.requireNonNull(getServer().getPluginCommand("to")).setExecutor(new ToCommand(this));
+        getServer().getPluginCommand("generalutils").setExecutor(new GeneralUtilsCommand(this));
+        getServer().getPluginCommand("generalutils").setTabCompleter(new InfoTabCompleter());
+        getServer().getPluginCommand("bring").setExecutor(new BringCommand(this));
+        getServer().getPluginCommand("to").setExecutor(new ToCommand(this));
         BackCommand backCommand = new BackCommand();
-        Objects.requireNonNull(getServer().getPluginCommand("back")).setExecutor(backCommand);
+        getServer().getPluginCommand("back").setExecutor(backCommand);
         getServer().getPluginManager().registerEvents(backCommand, this);
-        Objects.requireNonNull(getServer().getPluginCommand("kickall")).setExecutor(new KickallCommand());
-        Objects.requireNonNull(getServer().getPluginCommand("staffchat")).setExecutor(new StaffChatCommand());
+        getServer().getPluginCommand("kickall").setExecutor(new KickallCommand());
+        getServer().getPluginCommand("staffchat").setExecutor(new StaffChatCommand());
+        getServer().getPluginCommand("announce").setExecutor(new AnnounceCommand());
+        getServer().getPluginCommand("ban").setExecutor(banUtils);
+        getServer().getPluginManager().registerEvents(banUtils, this);
+
+        // Unregister ban if custom-ban is disabled in the config.
+
+        if (!config.getBoolean("ban-utils.custom-ban.enabled")) {
+            PluginCommand cmd = this.getCommand("ban");
+            UnregisterCommand.unRegisterBukkitCommand(cmd);
+        }
 
         // Checking if PAPI is installed
 
