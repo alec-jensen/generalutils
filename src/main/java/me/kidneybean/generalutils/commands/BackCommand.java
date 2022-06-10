@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 public class BackCommand implements CommandExecutor, Listener {
     HashMap<UUID, Location> backDict = new HashMap<>();
+    HashMap<UUID, Boolean> teleportFromSleepDict = new HashMap<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -37,7 +39,18 @@ public class BackCommand implements CommandExecutor, Listener {
     @EventHandler
     public void PlayerTeleportEvent(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
+        if (teleportFromSleepDict.containsKey(player.getUniqueId())) {
+            if (teleportFromSleepDict.get(player.getUniqueId())) {
+                teleportFromSleepDict.remove(player.getUniqueId());
+                return;
+            }
+        }
         Location from = event.getFrom();
         backDict.put(player.getUniqueId(), from);
+    }
+
+    @EventHandler
+    public void PlayerBedLeaveEvent(PlayerBedLeaveEvent event) {
+        teleportFromSleepDict.put(event.getPlayer().getUniqueId(), true);
     }
 }

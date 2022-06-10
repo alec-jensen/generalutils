@@ -21,6 +21,7 @@ commands:
   back:
     description: Go to your location pre-teleport
     usage: /<command>
+    permission: generalutils.back
   kickall:
     description: Kick every online player
     usage: /<command>
@@ -36,8 +37,24 @@ commands:
     permission: generalutils.announce
   ban:
     description: An alternate ban command, to prevent /ban @a.
-    usage: /<command> <player> <message>
+    usage: /<command> <player> <reason>
     permission: ban
+  suicide:
+    description: Kills you.
+    usage: /<command>
+    permission: generalutils.suicide
+  clearchat:
+    description: Clear the chat.
+    usage: /<command>
+    permission: generalutils.clearchat
+  freeze:
+    description: Stop a player from moving, breaking/placing, and taking/inflicting damage.
+    usage: /<command> <player>
+    permission: generalutils.freeze
+  unfreeze:
+    description: Unfreeze a player.
+    usage: /<command> <player>
+    permission: generalutils.freeze
 
 permissions:
   generalutils.reload:
@@ -49,6 +66,9 @@ permissions:
   generalutils.to:
     description: Allow going to players
     default: op
+  generalutils.back:
+    description: Go to your location pre-teleport
+    default: true
   generalutils.kickall:
     description: Allow kickall command usage
     default: op
@@ -60,4 +80,13 @@ permissions:
     default: op
   generalutils.announce:
     description: Allow people to send announcements
+    default: op
+  generalutils.suicide:
+    description: Kills you
+    default: true
+  generalutils.clearchat:
+    description: Clear the chat.
+    default: op
+  generalutils.freeze:
+    description: Allow to freeze/unfreeze players
     default: op

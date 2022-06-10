@@ -19,6 +19,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.UUID;
 
 import static org.bukkit.Bukkit.getPluginManager;
 
@@ -31,6 +33,8 @@ public final class GeneralUtils extends JavaPlugin {
     }
 
     public BanUtils banUtils = new BanUtils();
+
+    public HashMap<UUID, Boolean> frozenDict = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -68,6 +72,13 @@ public final class GeneralUtils extends JavaPlugin {
         getServer().getPluginCommand("announce").setExecutor(new AnnounceCommand());
         getServer().getPluginCommand("ban").setExecutor(banUtils);
         getServer().getPluginManager().registerEvents(banUtils, this);
+        getServer().getPluginCommand("suicide").setExecutor(new SuicideCommand());
+        getServer().getPluginCommand("clearchat").setExecutor(new ClearChatCommand());
+        FreezeCommand freezeCommand = new FreezeCommand(frozenDict);
+        getServer().getPluginCommand("freeze").setExecutor(freezeCommand);
+        getServer().getPluginManager().registerEvents(freezeCommand, this);
+        getServer().getPluginCommand("unfreeze").setExecutor(new UnfreezeCommand(frozenDict));
+
 
         // Unregister ban if custom-ban is disabled in the config.
 

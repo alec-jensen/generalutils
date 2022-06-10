@@ -41,7 +41,7 @@ public class AnnounceCommand implements CommandExecutor {
                                 + String.join(" ", args));
             }
             // Play this sound 3 times with a 1 tick interval using scheduler
-            // This is  good announcement sound, it grabs attention
+            // This is a good announcement sound, it grabs attention
             AtomicInteger integer = new AtomicInteger(1);
             scheduler.runTaskTimer(plugin, task -> {
                 if (integer.getAndAdd(1) >= 4) {

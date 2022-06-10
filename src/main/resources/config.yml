@@ -7,10 +7,17 @@ back-enabled: true
 kickall-exempt-enabled: true
 
 ban-utils:
+
+  # Strike banned players with lighting
+  ban-lightning-effect: true
+
+  # Announce when players are banned
+  announce-bans: true
+
   # Custom ban (overwrites vanilla ban command to prevent /ban @a or reasonless bans)
   custom-ban:
 
-    # Must be enabled for the custom ban options to work
+    # Must be enabled for the following custom ban options to work
     # MUST RESTART SERVER IF YOU CHANGE THIS
     enabled: false
 
@@ -20,11 +27,26 @@ ban-utils:
     # If require-reason is false and no reason is supplied, what reason do we put?
     default-reason: 'Banned by operator.'
 
-  # Strike banned players with lighting
-  ban-lightning-effect: true
 
-  # Announce when players are banned
-  announce-bans: true
+
+
+freeze-command:
+
+  # Stop frozen players from being damaged
+  negate-damage: true
+
+  # Stop frozen players from attacking
+  negate-attack: true
+
+  # Stop frozen players from breaking blocks
+  stop-break: true
+
+  # Stop frozen players from placing blocks
+  stop-place: true
+
+  # Stop frozen players from running commands
+  stop-commands: true
+
 
 
 
@@ -35,18 +57,23 @@ messages:
   # Kick reason for kickall usage
   kickall-message: '&4Kickall command was used!'
 
-  # Prefix for staffchat (<sender> is a placeholder for the senders username.)
+  # Prefix for staffchat
+  # <sender> is a placeholder for the senders username.
   staffchat-prefix: '&5[StaffChat] &l<sender>&r&5 >&f '
 
   # Prefix to show before announcements
   announce-prefix: '&4[ANNOUNCEMENT] '
 
   # Message to announce if custom ban message is enabled.
-  # (<banned> is the banned players username. <reason> can be used to get the reason)
+  # <banned> is the banned players username. <reason> can be used to get the reason
   ban-message: '&4<banned> was banned!'
+
+  # Message to send when chat gets cleared
+  # <sender> is the player who cleared the chat. <player> is the player who is receiving the message
+  clearchat-message: '&dChat cleared by &l<sender>'
 
 
 
 
 # DO NOT CHANGE THIS
-config-version: 5
+config-version: 6
