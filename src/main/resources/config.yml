@@ -1,17 +1,17 @@
 # GeneralUtils config
 
-back-enabled: true
 # Allows usage of /back command.
+back-enabled: true
 
-kickall-exempt-enabled: true
 # Enable or disable kickall exemption
+kickall-exempt-enabled: true
 
 ban-utils:
   # Custom ban (overwrites vanilla ban command to prevent /ban @a or reasonless bans)
   custom-ban:
 
     # Must be enabled for the custom ban options to work
-    # Requires server restart if changed
+    # MUST RESTART SERVER IF YOU CHANGE THIS
     enabled: false
 
     # Require ban to have reason (won't allow /ban player, but will allow /ban player reason)
@@ -49,4 +49,4 @@ messages:
 
 
 # DO NOT CHANGE THIS
-config-version: 4
+config-version: 5

@@ -7,24 +7,18 @@ import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import me.kidneybean.generalutils.commands.*;
+import me.kidneybean.generalutils.utils.DynamicCommands;
 import me.kidneybean.generalutils.utils.InfoTabCompleter;
-import me.kidneybean.generalutils.utils.UnregisterCommand;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandMap;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bstats.bukkit.Metrics;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 import static org.bukkit.Bukkit.getPluginManager;
 
@@ -36,7 +30,7 @@ public final class GeneralUtils extends JavaPlugin {
         return GeneralUtils.instance;
     }
 
-    BanUtils banUtils = new BanUtils();
+    public BanUtils banUtils = new BanUtils();
 
     @Override
     public void onEnable() {
@@ -79,7 +73,7 @@ public final class GeneralUtils extends JavaPlugin {
 
         if (!config.getBoolean("ban-utils.custom-ban.enabled")) {
             PluginCommand cmd = this.getCommand("ban");
-            UnregisterCommand.unRegisterBukkitCommand(cmd);
+            DynamicCommands.unRegisterBukkitCommand(cmd);
         }
 
         // Checking if PAPI is installed

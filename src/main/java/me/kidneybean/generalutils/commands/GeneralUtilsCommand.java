@@ -1,16 +1,13 @@
 package me.kidneybean.generalutils.commands;
 
 import me.kidneybean.generalutils.GeneralUtils;
-import me.kidneybean.generalutils.utils.UnregisterCommand;
+import me.kidneybean.generalutils.utils.DynamicCommands;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
-
-import java.util.ArrayList;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -34,12 +31,23 @@ public class GeneralUtilsCommand implements CommandExecutor {
         } else if (args[0].equalsIgnoreCase("reload")) {
             FileConfiguration config = Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig();
             Bukkit.getPluginManager().getPlugin("GeneralUtils").reloadConfig();
-            if (config.getBoolean("ban-utils.custom-ban.enabled")) {
-                
-            } else {
-                PluginCommand cmd = getServer().getPluginCommand("ban");
-                UnregisterCommand.unRegisterBukkitCommand(cmd);
-            }
+            // if (config.getBoolean("ban-utils.custom-ban.enabled")) {
+            //     try {
+            //         DynamicCommands dynamicCommands = new DynamicCommands();
+            //         dynamicCommands.registerCommand(generalUtils, generalUtils.banUtils, "ban");
+            //         DynamicCommands.syncCommands();
+            //     } catch (Exception e) {
+            //         e.printStackTrace();
+            //     }
+            // } else {
+            //     PluginCommand cmd = getServer().getPluginCommand("ban");
+            //     DynamicCommands.unRegisterBukkitCommand(cmd);
+            //     try {
+            //         DynamicCommands.syncCommands();
+            //     } catch (Exception e) {
+            //         e.printStackTrace();
+            //     }
+            // }
             if (sender instanceof Player player) {
                 if (player.hasPermission("generalutils.reload")) {
                     player.sendMessage(ChatColor.GREEN + "Successfully reloaded config!");
