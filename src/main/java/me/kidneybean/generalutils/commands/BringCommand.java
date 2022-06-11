@@ -35,7 +35,7 @@ public class BringCommand implements CommandExecutor {
                 selPlayer.teleport(location);
             }
         } else {
-            generalUtils.getLogger().info(ChatColor.RED + "This command can only be executed by a player!");
+            generalUtils.getLogger().warning("This command can only be executed by a player!");
             return true;
         }
         return true;

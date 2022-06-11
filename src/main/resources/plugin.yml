@@ -4,6 +4,7 @@ main: me.kidneybean.generalutils.GeneralUtils
 api-version: 1.18
 authors: [ kidneybean ]
 description: A general utilities plugin made by kidney bean
+softdepend: [PlaceholderAPI]
 commands:
   generalutils:
     description: Get plugin information.
@@ -20,10 +21,40 @@ commands:
   back:
     description: Go to your location pre-teleport
     usage: /<command>
+    permission: generalutils.back
   kickall:
     description: Kick every online player
     usage: /<command>
     permission: generalutils.kickall
+  staffchat:
+    description: Send a message in staff chat
+    usage: /<command> <message>
+    aliases: ['sc']
+    permission: generalutils.staffchat
+  announce:
+    description: Send an announcement to the whole server
+    usage: /<command> <message>
+    permission: generalutils.announce
+  ban:
+    description: An alternate ban command, to prevent /ban @a.
+    usage: /<command> <player> <reason>
+    permission: ban
+  suicide:
+    description: Kills you.
+    usage: /<command>
+    permission: generalutils.suicide
+  clearchat:
+    description: Clear the chat.
+    usage: /<command>
+    permission: generalutils.clearchat
+  freeze:
+    description: Stop a player from moving, breaking/placing, and taking/inflicting damage.
+    usage: /<command> <player>
+    permission: generalutils.freeze
+  unfreeze:
+    description: Unfreeze a player.
+    usage: /<command> <player>
+    permission: generalutils.freeze
 
 permissions:
   generalutils.reload:
@@ -35,9 +66,27 @@ permissions:
   generalutils.to:
     description: Allow going to players
     default: op
+  generalutils.back:
+    description: Go to your location pre-teleport
+    default: true
   generalutils.kickall:
     description: Allow kickall command usage
     default: op
   generalutils.kickall.exempt:
     description: Don't be kicked when kickall is used (can be disabled in config)
+    default: op
+  generalutils.staffchat:
+    description: Send and recieve staffchat messages
+    default: op
+  generalutils.announce:
+    description: Allow people to send announcements
+    default: op
+  generalutils.suicide:
+    description: Kills you
+    default: true
+  generalutils.clearchat:
+    description: Clear the chat.
+    default: op
+  generalutils.freeze:
+    description: Allow to freeze/unfreeze players
     default: op

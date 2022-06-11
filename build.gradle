@@ -1,15 +1,15 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 group = 'me.kidneybean'
-version = '1.0.1-RELEASE'
+version = '1.0.2-RELEASE'
 
 repositories {
     mavenCentral()
     maven {
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
-
         content {
             includeGroup 'org.bukkit'
             includeGroup 'org.spigotmc'
@@ -21,10 +21,21 @@ repositories {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
+    maven {
+        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
 }
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT'
+    compileOnly 'me.clip:placeholderapi:2.11.1'
+    implementation 'dev.dejvokep:boosted-yaml:1.2'
+    implementation 'org.bstats:bstats-bukkit:3.0.0'
+}
+
+shadowJar {
+    relocate 'dev.dejvokep.boostedyaml', 'me.kidneybean.generalutils.shaded.boostedyaml'
+    relocate 'org.bstats', 'me.kidneybean.generalutils.shaded.bstats'
 }
 
 def targetJavaVersion = 17
