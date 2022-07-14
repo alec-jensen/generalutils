@@ -28,11 +28,10 @@ public class AnnounceCommand implements CommandExecutor {
             return true;
         }
         for (Player loopPlayer : getOnlinePlayers()) {
-            Player player = (Player) sender;
             // Set placeholders and color codes
             if (getPluginManager().getPlugin("PlaceholderAPI") != null) {
                 loopPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        PlaceholderAPI.setPlaceholders(player,
+                        PlaceholderAPI.setPlaceholders(loopPlayer,
                         Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("messages.announce-prefix"))
                                 + String.join(" ", args)));
             } else {
