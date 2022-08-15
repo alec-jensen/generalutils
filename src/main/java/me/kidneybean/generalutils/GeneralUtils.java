@@ -40,6 +40,8 @@ public final class GeneralUtils extends JavaPlugin {
     public void onEnable() {
         GeneralUtils.instance = this;
 
+        // test CI workflow
+
         // bStats setup
 
         int pluginId = 14930;
