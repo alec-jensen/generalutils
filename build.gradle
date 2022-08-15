@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'me.kidneybean'
-version = '1.0.2-RELEASE'
+version = '0.0.1'
 
 repositories {
     mavenCentral()
@@ -29,7 +29,7 @@ repositories {
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.18.2-R0.1-SNAPSHOT'
     compileOnly 'me.clip:placeholderapi:2.11.1'
-    implementation 'dev.dejvokep:boosted-yaml:1.2'
+    implementation 'dev.dejvokep:boosted-yaml:1.3'
     implementation 'org.bstats:bstats-bukkit:3.0.0'
 }
 
