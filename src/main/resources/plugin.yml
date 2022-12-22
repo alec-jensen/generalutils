@@ -1,9 +1,9 @@
 name: GeneralUtils
 version: '${version}'
-main: me.kidneybean.generalutils.GeneralUtils
+main: me.alecjensen.generalutils.GeneralUtils
 api-version: 1.18
-authors: [ kidneybean ]
-description: A general utilities plugin made by kidney bean
+authors: [ AlecJensen ]
+description: A general utilities plugin made by Alec Jensen
 softdepend: [PlaceholderAPI]
 commands:
   generalutils:
@@ -55,6 +55,14 @@ commands:
     description: Unfreeze a player.
     usage: /<command> <player>
     permission: generalutils.freeze
+  mute:
+    description: Mute a player.
+    usage: /<command> <player>
+    permission: generalutils.mute
+  unmute:
+    description: Unmute a player.
+    usage: /<command> <player>
+    permission: generalutils.mute
 
 permissions:
   generalutils.reload:
@@ -89,4 +97,7 @@ permissions:
     default: op
   generalutils.freeze:
     description: Allow to freeze/unfreeze players
+    default: op
+  generalutils.mute:
+    description: Allow to mute/unmute players
     default: op

@@ -72,6 +72,10 @@ messages:
   # <sender> is the player who cleared the chat. <player> is the player who is receiving the message
   clearchat-message: '&dChat cleared by &l<sender>'
 
+  # Message to send to muted users
+  # <sender> is the player who muted. <player> is the muted player.
+  mute-message: '&4You have been muted by &l<sender>!'
+
 
 
 

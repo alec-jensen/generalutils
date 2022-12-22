@@ -1,7 +1,6 @@
-package me.kidneybean.generalutils.commands;
+package me.alecjensen.generalutils.commands;
 
-import me.kidneybean.generalutils.GeneralUtils;
-import me.kidneybean.generalutils.utils.DynamicCommands;
+import me.alecjensen.generalutils.GeneralUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
@@ -23,9 +22,9 @@ public class GeneralUtilsCommand implements CommandExecutor {
         if (args.length == 0 || args[0].equalsIgnoreCase("info")) {
             PluginDescriptionFile pdf = this.generalUtils.getDescription();
             if (sender instanceof Player player) {
-                player.sendMessage(ChatColor.GREEN + "GeneralUtils plugin by kidney bean\nVersion: " + pdf.getVersion() + "\nConfig version: " + Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("config-version"));
+                player.sendMessage(ChatColor.GREEN + "GeneralUtils plugin by Alec Jensen\nVersion: " + pdf.getVersion() + "\nConfig version: " + Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("config-version"));
             } else {
-                generalUtils.getLogger().info(ChatColor.GREEN + "\nGeneralUtils plugin by kidney bean\nVersion: " + pdf.getVersion() + "\nConfig version: " + Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("config-version"));
+                generalUtils.getLogger().info(ChatColor.GREEN + "\nGeneralUtils plugin by Alec Jensen\nVersion: " + pdf.getVersion() + "\nConfig version: " + Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("config-version"));
             }
             return true;
         } else if (args[0].equalsIgnoreCase("reload")) {

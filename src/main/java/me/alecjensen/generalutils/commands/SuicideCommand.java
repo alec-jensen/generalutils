@@ -1,4 +1,4 @@
-package me.kidneybean.generalutils.commands;
+package me.alecjensen.generalutils.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

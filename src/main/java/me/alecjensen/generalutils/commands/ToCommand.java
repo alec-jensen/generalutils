@@ -1,6 +1,6 @@
-package me.kidneybean.generalutils.commands;
+package me.alecjensen.generalutils.commands;
 
-import me.kidneybean.generalutils.GeneralUtils;
+import me.alecjensen.generalutils.GeneralUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -9,10 +9,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class BringCommand implements CommandExecutor {
+public class ToCommand implements CommandExecutor {
     private final GeneralUtils generalUtils;
 
-    public BringCommand(GeneralUtils generalUtils) {
+    public ToCommand(GeneralUtils generalUtils) {
         this.generalUtils = generalUtils;
     }
 
@@ -31,8 +31,8 @@ public class BringCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "That's not a valid player!");
                     return true;
                 }
-                Location location = player.getLocation();
-                selPlayer.teleport(location);
+                Location location = selPlayer.getLocation();
+                player.teleport(location);
             }
         } else {
             generalUtils.getLogger().warning("This command can only be executed by a player!");

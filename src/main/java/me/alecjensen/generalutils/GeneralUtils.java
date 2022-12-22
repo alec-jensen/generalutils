@@ -1,4 +1,4 @@
-package me.kidneybean.generalutils;
+package me.alecjensen.generalutils;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
@@ -6,9 +6,10 @@ import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
-import me.kidneybean.generalutils.commands.*;
-import me.kidneybean.generalutils.utils.DynamicCommands;
-import me.kidneybean.generalutils.utils.InfoTabCompleter;
+import me.alecjensen.generalutils.commands.*;
+import me.alecjensen.generalutils.commands.*;
+import me.alecjensen.generalutils.utils.DynamicCommands;
+import me.alecjensen.generalutils.utils.InfoTabCompleter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -39,8 +40,6 @@ public final class GeneralUtils extends JavaPlugin {
     @Override
     public void onEnable() {
         GeneralUtils.instance = this;
-
-        // test CI workflow
 
         // bStats setup
 
@@ -80,6 +79,12 @@ public final class GeneralUtils extends JavaPlugin {
         getServer().getPluginCommand("freeze").setExecutor(freezeCommand);
         getServer().getPluginManager().registerEvents(freezeCommand, this);
         getServer().getPluginCommand("unfreeze").setExecutor(new UnfreezeCommand(frozenDict));
+        MuteCommand muteCommand = new MuteCommand(this);
+        getServer().getPluginCommand("mute").setExecutor(muteCommand);
+        getServer().getPluginManager().registerEvents(muteCommand, this);
+        UnmuteCommand unmuteCommand = new UnmuteCommand(this);
+        getServer().getPluginCommand("unmute").setExecutor(unmuteCommand);
+        getServer().getPluginManager().registerEvents(unmuteCommand, this);
 
 
         // Unregister ban if custom-ban is disabled in the config.
@@ -97,7 +102,7 @@ public final class GeneralUtils extends JavaPlugin {
             getLogger().warning("PlaceholderAPI not installed! PAPI functionality will not work.");
         }
 
-        getLogger().info(ChatColor.GREEN + "\nGeneralUtils plugin by kidney bean\nVersion: " + pdf.getVersion() + "\nConfig version: " + getConfig().getString("config-version"));
+        getLogger().info(ChatColor.GREEN + "\nGeneralUtils plugin by Alec Jensen\nVersion: " + pdf.getVersion() + "\nConfig version: " + getConfig().getString("config-version"));
     }
 
     @Override

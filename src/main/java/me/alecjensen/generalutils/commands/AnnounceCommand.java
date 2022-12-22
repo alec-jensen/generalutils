@@ -1,7 +1,7 @@
-package me.kidneybean.generalutils.commands;
+package me.alecjensen.generalutils.commands;
 
+import me.alecjensen.generalutils.GeneralUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.kidneybean.generalutils.GeneralUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

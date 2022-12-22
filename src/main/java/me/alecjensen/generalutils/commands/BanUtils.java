@@ -1,4 +1,4 @@
-package me.kidneybean.generalutils.commands;
+package me.alecjensen.generalutils.commands;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.BanList;
