@@ -30,6 +30,8 @@ public class GeneralUtilsCommand implements CommandExecutor {
         } else if (args[0].equalsIgnoreCase("reload")) {
             FileConfiguration config = Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig();
             Bukkit.getPluginManager().getPlugin("GeneralUtils").reloadConfig();
+
+            // code to enable/disable custom ban command (NOT WORKING)
             // if (config.getBoolean("ban-utils.custom-ban.enabled")) {
             //     try {
             //         DynamicCommands dynamicCommands = new DynamicCommands();

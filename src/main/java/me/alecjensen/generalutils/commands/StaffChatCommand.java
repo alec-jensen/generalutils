@@ -1,5 +1,6 @@
 package me.alecjensen.generalutils.commands;
 
+import me.alecjensen.generalutils.utils.SendMessagePAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,16 +23,11 @@ public class StaffChatCommand implements CommandExecutor {
         if (sender instanceof Player) {
             for (Player loopPlayer : getOnlinePlayers()) {
                 if (loopPlayer.hasPermission("generalutils.staffchat")) {
-                    if (getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                        loopPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                PlaceholderAPI.setPlaceholders(((Player) sender).getPlayer(),
-                                        Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("messages.staffchat-prefix")).replace("<sender>",
-                                        ((Player) sender).getDisplayName())) + String.join(" ", args));
-                    } else {
-                        loopPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                        Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("messages.staffchat-prefix")).replace("<sender>",
-                                        ((Player) sender).getDisplayName()) + String.join(" ", args));
-                    }
+                    SendMessagePAPI.sendMessagePAPI(loopPlayer,
+                            ChatColor.translateAlternateColorCodes('&',
+                            Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig()
+                                    .getString("messages.staffchat-prefix")).replace("<sender>",
+                            ((Player) sender).getDisplayName()) + String.join(" ", args));
                 }
             }
         } else {

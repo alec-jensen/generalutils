@@ -1,6 +1,7 @@
 package me.alecjensen.generalutils.commands;
 
 import me.alecjensen.generalutils.GeneralUtils;
+import me.alecjensen.generalutils.utils.SendMessagePAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -28,18 +29,11 @@ public class AnnounceCommand implements CommandExecutor {
             return true;
         }
         for (Player loopPlayer : getOnlinePlayers()) {
-            Player player = (Player) sender;
             // Set placeholders and color codes
-            if (getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                loopPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        PlaceholderAPI.setPlaceholders(player,
-                        Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("messages.announce-prefix"))
-                                + String.join(" ", args)));
-            } else {
-                loopPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("messages.announce-prefix"))
-                                + String.join(" ", args));
-            }
+            SendMessagePAPI.sendMessagePAPI(loopPlayer, ChatColor.translateAlternateColorCodes('&',
+                    Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("messages.announce-prefix"))
+                    + String.join(" ", args));
+
             // Play this sound 3 times with a 1 tick interval using scheduler
             // This is a good announcement sound, it grabs attention
             AtomicInteger integer = new AtomicInteger(1);

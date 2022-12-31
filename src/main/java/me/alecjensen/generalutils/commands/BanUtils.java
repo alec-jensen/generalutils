@@ -1,5 +1,6 @@
 package me.alecjensen.generalutils.commands;
 
+import me.alecjensen.generalutils.utils.SendMessagePAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
@@ -78,16 +79,9 @@ public class BanUtils implements CommandExecutor, Listener {
             }
             if (config.getBoolean("ban-utils.announce-bans")) {
                 for (Player loopPlayer : getOnlinePlayers()) {
-                    if (getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                        loopPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                PlaceholderAPI.setPlaceholders(event.getPlayer(),
-                                        config.getString("messages.ban-message").replace("<banned>",
-                                                event.getPlayer().getDisplayName()).replace("<reason>", event.getReason()))));
-                    } else {
-                        loopPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                        config.getString("messages.ban-message").replace("<banned>",
-                                                event.getPlayer().getDisplayName()).replace("<reason>", event.getReason())));
-                    }
+                    SendMessagePAPI.sendMessagePAPI(loopPlayer, ChatColor.translateAlternateColorCodes('&',
+                            config.getString("messages.ban-message").replace("<banned>",
+                                    event.getPlayer().getDisplayName()).replace("<reason>", event.getReason())));
                 }
             }
         }

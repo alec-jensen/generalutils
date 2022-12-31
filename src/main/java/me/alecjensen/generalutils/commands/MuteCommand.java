@@ -1,5 +1,6 @@
 package me.alecjensen.generalutils.commands;
 
+import me.alecjensen.generalutils.utils.SendMessagePAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.alecjensen.generalutils.GeneralUtils;
 import org.bukkit.Bukkit;
@@ -43,16 +44,9 @@ public class MuteCommand implements CommandExecutor, Listener {
         }
         sender.sendMessage(ChatColor.RED + "Player muted!");
 
-        if (getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    PlaceholderAPI.setPlaceholders(targetPlayer,
-                            config.getString("messages.clearchat-message").replace("<sender>",
-                                    "ServerConsole").replace("<player>", targetPlayer.getDisplayName()))));
-        } else {
-            targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            config.getString("messages.clearchat-message").replace("<sender>",
-                                    "ServerConsole").replace("<player>", targetPlayer.getDisplayName())));
-        }
+        SendMessagePAPI.sendMessagePAPI(targetPlayer,
+                config.getString("messages.mute-message").replace("<sender>",
+                sender.getName()).replace("<player>", targetPlayer.getDisplayName()));
 
 
         NamespacedKey key = new NamespacedKey(generalUtils, "muted");

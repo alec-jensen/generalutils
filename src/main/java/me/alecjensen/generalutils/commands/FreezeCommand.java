@@ -62,10 +62,8 @@ public class FreezeCommand implements CommandExecutor, Listener {
 
     @EventHandler
     public void PlayerMoveEvent(PlayerMoveEvent event) {
-        if (frozenDict.containsKey(event.getPlayer().getUniqueId())) {
-            if (frozenDict.get(event.getPlayer().getUniqueId())) {
-                event.setCancelled(true);
-            }
+        if (frozenDict.get(event.getPlayer().getUniqueId()) != null) {
+            event.setCancelled(true);
         }
     }
 
@@ -73,7 +71,7 @@ public class FreezeCommand implements CommandExecutor, Listener {
     public void EntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
         if (config.getBoolean("freeze-command.negate-damage")) {
             if (event.getEntity() instanceof Player player) {
-                if (frozenDict.get(player.getUniqueId())) {
+                if (frozenDict.get(player.getUniqueId()) != null) {
                     event.setCancelled(true);
                     if (event.getDamager() instanceof Player attacker) {
                         attacker.sendMessage(ChatColor.RED + "This player is frozen!");
@@ -82,10 +80,9 @@ public class FreezeCommand implements CommandExecutor, Listener {
             }
         }
         if (config.getBoolean("freeze-command.negate-attack")) {
-            if (event.getEntity() instanceof Player player) {
-                if (frozenDict.get(player.getUniqueId())) {
-                    event.setCancelled(true);
-                }
+            Player player = (Player) event.getEntity();
+            if (frozenDict.get(player.getUniqueId()) != null) {
+                event.setCancelled(true);
             }
         }
     }
@@ -93,7 +90,7 @@ public class FreezeCommand implements CommandExecutor, Listener {
     @EventHandler
     public void PlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event) {
         if (config.getBoolean("freeze-command.stop-commands")) {
-            if (frozenDict.get(event.getPlayer().getUniqueId())) {
+            if (frozenDict.get(event.getPlayer().getUniqueId()) != null) {
                 event.setCancelled(true);
             }
         }
@@ -102,7 +99,7 @@ public class FreezeCommand implements CommandExecutor, Listener {
     @EventHandler
     public void BlockBreakEvent(BlockBreakEvent event) {
         if (config.getBoolean("freeze-command.stop-break")) {
-            if (frozenDict.get(event.getPlayer().getUniqueId())) {
+            if (frozenDict.get(event.getPlayer().getUniqueId()) != null) {
                 event.setCancelled(true);
             }
         }
@@ -111,7 +108,7 @@ public class FreezeCommand implements CommandExecutor, Listener {
     @EventHandler
     public void BlockPlaceEvent(BlockPlaceEvent event) {
         if (config.getBoolean("freeze-command.stop-place")) {
-            if (frozenDict.get(event.getPlayer().getUniqueId())) {
+            if (frozenDict.get(event.getPlayer().getUniqueId()) != null) {
                 event.setCancelled(true);
             }
         }

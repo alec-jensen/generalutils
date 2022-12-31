@@ -1,5 +1,6 @@
 package me.alecjensen.generalutils.commands;
 
+import me.alecjensen.generalutils.utils.SendMessagePAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,16 +24,9 @@ public class ClearChatCommand implements CommandExecutor {
             }
         }
         for (Player loopPlayer : getOnlinePlayers()) {
-            if (getPluginManager().getPlugin("PlaceholderAPI") != null) {
-                loopPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        PlaceholderAPI.setPlaceholders(player,
-                                config.getString("messages.clearchat-message").replace("<sender>",
-                                        player.getDisplayName()).replace("<player>", loopPlayer.getDisplayName()))));
-            } else {
-                loopPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        config.getString("messages.clearchat-message").replace("<sender>",
-                                player.getDisplayName()).replace("<player>", loopPlayer.getDisplayName())));
-            }
+            SendMessagePAPI.sendMessagePAPI(loopPlayer, ChatColor.translateAlternateColorCodes('&',
+                    config.getString("messages.clearchat-message").replace("<sender>",
+                            player.getDisplayName()).replace("<player>", loopPlayer.getDisplayName())));
         }
         return true;
     }
