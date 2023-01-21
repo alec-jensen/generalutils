@@ -80,9 +80,10 @@ public class FreezeCommand implements CommandExecutor, Listener {
             }
         }
         if (config.getBoolean("freeze-command.negate-attack")) {
-            Player player = (Player) event.getEntity();
-            if (frozenDict.get(player.getUniqueId()) != null) {
-                event.setCancelled(true);
+            if (event.getEntity() instanceof Player player){
+                if (frozenDict.get(player.getUniqueId()) != null) {
+                    event.setCancelled(true);
+                }
             }
         }
     }
