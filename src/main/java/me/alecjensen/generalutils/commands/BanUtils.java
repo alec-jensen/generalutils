@@ -5,6 +5,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,8 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-import static org.bukkit.Bukkit.getOnlinePlayers;
-import static org.bukkit.Bukkit.getPluginManager;
+import static org.bukkit.Bukkit.*;
 
 public class BanUtils implements CommandExecutor, Listener {
     private static BanUtils instance;
@@ -38,11 +38,6 @@ public class BanUtils implements CommandExecutor, Listener {
             sender.sendMessage(ChatColor.RED + "You must specify a player!");
             return true;
         }
-        Player target = Bukkit.getPlayer(args[0]);
-        if (Bukkit.getPlayer(args[0]) == null) {
-            sender.sendMessage(ChatColor.RED + "You must specify a player!");
-            return true;
-        }
         String reason;
         if (args.length == 1) {
             if (config.getBoolean("ban-utils.custom-ban.require-reason")) {
@@ -54,16 +49,12 @@ public class BanUtils implements CommandExecutor, Listener {
         } else {
             reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
         }
+        Bukkit.getBanList(BanList.Type.NAME).addBan(args[0], reason, null, sender.getName());
+        Player target = Bukkit.getPlayer(args[0]);
         if (target != null) {
-            Bukkit.getBanList(BanList.Type.NAME).addBan(args[0], reason, null, sender.getName());
             target.kickPlayer(reason);
-        } else {
-            if (sender instanceof Player) {
-                sender.sendMessage(ChatColor.RED + "You must specify a player!");
-            } else {
-                Bukkit.getLogger().warning("You must specify a player!");
-            }
         }
+        sender.sendMessage(ChatColor.GREEN + "Successfully banned " + args[0] + " for " + reason + "!");
         return true;
     }
 
