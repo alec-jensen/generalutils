@@ -1,10 +1,12 @@
 package me.alecjensen.generalutils.commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Dependency;
+import me.alecjensen.generalutils.GeneralUtils;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,42 +17,58 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class BackCommand implements CommandExecutor, Listener {
-    HashMap<UUID, Location> backDict = new HashMap<>();
-    HashMap<UUID, Boolean> teleportFromSleepDict = new HashMap<>();
+@CommandAlias("back")
+public class BackCommand extends BaseCommand implements Listener
+{
+    HashMap<UUID, Location> backLocations = new HashMap<>();
+    HashMap<UUID, Boolean> teleportsFromSleep = new HashMap<>();
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player player) {
-            if (Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig().getString("back-enabled").equals("true")) {
-                if (backDict.containsKey(player.getUniqueId())) {
-                    Location location = backDict.get(player.getUniqueId());
+    @Dependency
+    private GeneralUtils generalUtils;
+
+    @Default
+    @CommandPermission("generalutils.back")
+    public void onBackCommand(CommandSender sender)
+    {
+        if (sender instanceof Player player)
+        {
+            if (generalUtils.getConfig().getString("back-enabled").equals("true"))
+            {
+                if (backLocations.containsKey(player.getUniqueId()))
+                {
+                    Location location = backLocations.get(player.getUniqueId());
                     player.teleport(location);
-                } else {
-                    player.sendMessage(ChatColor.RED + "You haven't teleported yet!");
+                } else
+                {
+                    player.sendMessage("You haven't teleported yet!");
                 }
             }
-        } else {
-            Bukkit.getLogger().info(ChatColor.RED + "This command can only be executed by players!");
+        } else
+        {
+            generalUtils.getLogger().warning("This command can only be executed by a player!");
         }
-        return true;
     }
 
     @EventHandler
-    public void PlayerTeleportEvent(PlayerTeleportEvent event) {
+    public void PlayerTeleportEvent(PlayerTeleportEvent event)
+    {
         Player player = event.getPlayer();
-        if (teleportFromSleepDict.containsKey(player.getUniqueId())) {
-            if (teleportFromSleepDict.get(player.getUniqueId())) {
-                teleportFromSleepDict.remove(player.getUniqueId());
+        if (teleportsFromSleep.containsKey(player.getUniqueId()))
+        {
+            if (teleportsFromSleep.get(player.getUniqueId()))
+            {
+                teleportsFromSleep.remove(player.getUniqueId());
                 return;
             }
         }
+
         Location from = event.getFrom();
-        backDict.put(player.getUniqueId(), from);
+        backLocations.put(player.getUniqueId(), from);
     }
 
     @EventHandler
-    public void PlayerBedLeaveEvent(PlayerBedLeaveEvent event) {
-        teleportFromSleepDict.put(event.getPlayer().getUniqueId(), true);
+    public void PlayerBedLeaveEvent(PlayerBedLeaveEvent event)
+    {
+        teleportsFromSleep.put(event.getPlayer().getUniqueId(), true);
     }
 }

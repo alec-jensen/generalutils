@@ -1,44 +1,49 @@
 package me.alecjensen.generalutils.commands;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Default;
 import me.alecjensen.generalutils.GeneralUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class BringCommand implements CommandExecutor {
+@CommandAlias("bring")
+public class BringCommand extends BaseCommand
+{
     private final GeneralUtils generalUtils;
 
-    public BringCommand(GeneralUtils generalUtils) {
+    public BringCommand(GeneralUtils generalUtils)
+    {
         this.generalUtils = generalUtils;
     }
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player player) {
-            if (player.hasPermission("generalutils.bring")) {
-                if (args.length == 0) {
-                    player.sendMessage(ChatColor.RED + "You must specify a player!");
-                    return true;
-                }
-                Player selPlayer;
-
-                selPlayer = Bukkit.getPlayer(args[0]);
-                if (selPlayer == null) {
-                    player.sendMessage(ChatColor.RED + "That's not a valid player!");
-                    return true;
-                }
-                Location location = player.getLocation();
-                selPlayer.teleport(location);
+    @Default
+    @CommandPermission("generalutils.bring")
+    @CommandCompletion("@players")
+    public void onBringCommand(Player player, String[] args)
+    {
+        if (player.hasPermission("generalutils.bring"))
+        {
+            if (args.length == 0)
+            {
+                player.sendMessage(ChatColor.RED + "You must specify a player!");
+                return;
             }
-        } else {
-            generalUtils.getLogger().warning("This command can only be executed by a player!");
-            return true;
+            Player selPlayer;
+
+            selPlayer = Bukkit.getPlayer(args[0]);
+            if (selPlayer == null)
+            {
+                player.sendMessage(ChatColor.RED + "That's not a valid player!");
+                return;
+            }
+            Location location = player.getLocation();
+            selPlayer.teleport(location);
         }
-        return true;
     }
 }
 

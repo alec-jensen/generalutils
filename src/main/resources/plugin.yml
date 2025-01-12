@@ -1,69 +1,10 @@
 name: GeneralUtils
 version: '${version}'
 main: me.alecjensen.generalutils.GeneralUtils
-api-version: 1.18
-authors: [ AlecJensen ]
+api-version: 1.21
+authors: [ "Alec Jensen" ]
 description: A general utilities plugin made by Alec Jensen
-softdepend: [PlaceholderAPI]
-commands:
-  generalutils:
-    description: Get plugin information.
-    usage: /<command> [info|reload]
-    aliases: ['gutils', 'gu']
-  bring:
-    description: Bring players to you.
-    usage: /<command> [online player]
-    permission: generalutils.bring
-  to:
-    description: Go to players.
-    usage: /<command> [online player]
-    permission: generalutils.to
-  back:
-    description: Go to your location pre-teleport
-    usage: /<command>
-    permission: generalutils.back
-  kickall:
-    description: Kick every online player
-    usage: /<command>
-    permission: generalutils.kickall
-  staffchat:
-    description: Send a message in staff chat
-    usage: /<command> <message>
-    aliases: ['sc']
-    permission: generalutils.staffchat
-  announce:
-    description: Send an announcement to the whole server
-    usage: /<command> <message>
-    permission: generalutils.announce
-  ban:
-    description: An alternate ban command, to prevent /ban @a.
-    usage: /<command> <player> <reason>
-    permission: ban
-  suicide:
-    description: Kills you.
-    usage: /<command>
-    permission: generalutils.suicide
-  clearchat:
-    description: Clear the chat.
-    usage: /<command>
-    permission: generalutils.clearchat
-  freeze:
-    description: Stop a player from moving, breaking/placing, and taking/inflicting damage.
-    usage: /<command> <player>
-    permission: generalutils.freeze
-  unfreeze:
-    description: Unfreeze a player.
-    usage: /<command> <player>
-    permission: generalutils.freeze
-  mute:
-    description: Mute a player.
-    usage: /<command> <player>
-    permission: generalutils.mute
-  unmute:
-    description: Unmute a player.
-    usage: /<command> <player>
-    permission: generalutils.mute
-
+softdepend: [ "PlaceholderAPI" ]
 permissions:
   generalutils.reload:
     description: Allow reloading of the config
@@ -98,6 +39,12 @@ permissions:
   generalutils.freeze:
     description: Allow to freeze/unfreeze players
     default: op
+  generalutils.freeze.exempt:
+    description: Players with this permission cannot be frozen
+    default: op
   generalutils.mute:
     description: Allow to mute/unmute players
+    default: op
+  generalutils.tempban:
+    description: Allow to temporarily ban players
     default: op

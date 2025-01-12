@@ -16,10 +16,28 @@ import java.util.HashMap;
 
 import static org.bukkit.Bukkit.getName;
 
-public class DynamicCommands {
+// TODO: https://github.com/aikar/commands/issues/273
+
+public class DynamicCommands
+{
+
+    private static Method syncCommands;
+
+    static
+    {
+        try
+        {
+            syncCommands = Bukkit.getServer().getClass().getDeclaredMethod("syncCommands");
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        syncCommands.setAccessible(true);
+    }
 
     private static Object getPrivateField(Object object, String field) throws SecurityException,
-            NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+            NoSuchFieldException, IllegalArgumentException, IllegalAccessException
+    {
         Class<?> clazz = object.getClass();
         String v = Bukkit.getVersion();
         Bukkit.getLogger().info(v);
@@ -30,25 +48,31 @@ public class DynamicCommands {
         return result;
     }
 
-    public static void unRegisterBukkitCommand(PluginCommand cmd) {
-        try {
+    public static void unRegisterBukkitCommand(PluginCommand cmd)
+    {
+        try
+        {
             Object result = getPrivateField(Bukkit.getServer().getPluginManager(), "commandMap");
             SimpleCommandMap commandMap = (SimpleCommandMap) result;
             Object map = getPrivateField(commandMap, "knownCommands");
             @SuppressWarnings("unchecked")
             HashMap<String, Command> knownCommands = (HashMap<String, Command>) map;
             knownCommands.remove(cmd.getName());
-            for (String alias : cmd.getAliases()) {
-                if (knownCommands.containsKey(alias) && knownCommands.get(alias).toString().contains(getName())) {
+            for (String alias : cmd.getAliases())
+            {
+                if (knownCommands.containsKey(alias) && knownCommands.get(alias).toString().contains(getName()))
+                {
                     knownCommands.remove(alias);
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
 
-    public void registerCommand(Plugin plugin, CommandExecutor executor, String... aliases) throws NoSuchFieldException, IllegalAccessException {
+    public static void registerCommand(Plugin plugin, CommandExecutor executor, String... aliases) throws NoSuchFieldException, IllegalAccessException
+    {
         PluginCommand command = getCommand(aliases[0], plugin);
 
         command.setAliases(Arrays.asList(aliases));
@@ -58,32 +82,25 @@ public class DynamicCommands {
         command.setExecutor(executor);
     }
 
-    private static PluginCommand getCommand(String name, Plugin plugin) {
+    private static PluginCommand getCommand(String name, Plugin plugin)
+    {
         PluginCommand command = null;
 
-        try {
+        try
+        {
             Constructor<PluginCommand> c = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
             c.setAccessible(true);
 
             command = c.newInstance(name, plugin);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
         return command;
     }
 
-    private static Method syncCommands;
-
-    static {
-        try {
-            syncCommands = Bukkit.getServer().getClass().getDeclaredMethod("syncCommands");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        syncCommands.setAccessible(true);
-    }
-
-    public static void syncCommands() throws InvocationTargetException, IllegalAccessException {
+    public static void syncCommands() throws InvocationTargetException, IllegalAccessException
+    {
         syncCommands.invoke(Bukkit.getServer());
     }
 }

@@ -1,9 +1,12 @@
 package me.alecjensen.generalutils.commands;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Default;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -12,101 +15,118 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
-public class FreezeCommand implements CommandExecutor, Listener {
+@CommandAlias("freeze")
+public class FreezeCommand extends BaseCommand implements Listener
+{
     private final HashMap<UUID, Boolean> frozenPlayers;
+    FileConfiguration config = Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig();
 
-    public FreezeCommand(HashMap<UUID, Boolean> frozenPlayers) {
+    public FreezeCommand(HashMap<UUID, Boolean> frozenPlayers)
+    {
         this.frozenPlayers = frozenPlayers;
     }
 
-    FileConfiguration config = Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig();
-
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player player) {
-            if (args.length == 0) {
-                player.sendMessage(ChatColor.RED + "You must specify a player!");
-                return true;
-            }
-            if (Bukkit.getPlayer(args[0]) == null) {
-                player.sendMessage(ChatColor.RED + "That is not a valid player!");
-                return true;
-            }
-            Player targetPlayer = Bukkit.getPlayer(args[0]);
-            targetPlayer.setWalkSpeed(0);
-            targetPlayer.sendMessage(ChatColor.RED + "You have been frozen!");
-            frozenPlayers.put(targetPlayer.getUniqueId(), true);
-        } else {
-            if (args.length == 0) {
-                Bukkit.getLogger().warning("You must specify a player!");
-                return true;
-            }
-            if (Bukkit.getPlayer(args[0]) == null) {
-                Bukkit.getLogger().warning("That is not a valid player!");
-                return true;
-            }
-            Player targetPlayer = Bukkit.getPlayer(args[0]);
-            targetPlayer.setWalkSpeed(0);
-            targetPlayer.sendMessage(ChatColor.RED + "You have been frozen!");
-            frozenPlayers.put(targetPlayer.getUniqueId(), true);
+    @Default
+    @CommandPermission("generalutils.freeze")
+    @CommandCompletion("@players")
+    public void onFreezeCommand(CommandSender sender, String[] args)
+    {
+        if (args.length == 0)
+        {
+            sender.sendMessage(ChatColor.RED + "You must specify a player!");
+            return;
         }
-        return true;
+        if (Bukkit.getPlayer(args[0]) == null)
+        {
+            sender.sendMessage(ChatColor.RED + "That is not a valid player!");
+            return;
+        }
+        Player targetPlayer = Bukkit.getPlayer(args[0]);
+        if (targetPlayer.hasPermission("generalutils.freeze.bypass"))
+        {
+            sender.sendMessage(ChatColor.RED + "You cannot freeze this player!");
+            return;
+        }
+        targetPlayer.setWalkSpeed(0);
+        targetPlayer.setFlySpeed(0);
+        targetPlayer.setAllowFlight(true); // Prevents player from being kicked if they are in the air.
+        frozenPlayers.put(targetPlayer.getUniqueId(), true);
+        targetPlayer.sendMessage(ChatColor.RED + "You have been frozen!");
+        sender.sendMessage(ChatColor.RED + "You have frozen " + targetPlayer.getName() + "!");
     }
 
     @EventHandler
-    public void PlayerMoveEvent(PlayerMoveEvent event) {
-        if (frozenPlayers.get(event.getPlayer().getUniqueId()) != null) {
+    public void PlayerMoveEvent(PlayerMoveEvent event)
+    {
+        if (frozenPlayers.get(event.getPlayer().getUniqueId()) != null)
+        {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
-    public void EntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
-        if (config.getBoolean("freeze-command.negate-damage")) {
-            if (frozenPlayers.get(event.getEntity().getUniqueId()) != null) {
+    public void EntityDamageEvent(EntityDamageEvent event)
+    {
+        if (config.getBoolean("freeze-command.negate-damage"))
+        {
+            if (frozenPlayers.get(event.getEntity().getUniqueId()) != null)
+            {
                 event.setCancelled(true);
-                if (event.getDamager() instanceof Player attacker) {
+                if (event.getDamageSource().getCausingEntity() instanceof Player attacker)
+                {
                     attacker.sendMessage(ChatColor.RED + "This player is frozen!");
                 }
 
             }
         }
-        if (config.getBoolean("freeze-command.negate-attack")) {
-            if (frozenPlayers.get(event.getDamager().getUniqueId()) != null) {
+        if (config.getBoolean("freeze-command.negate-attack"))
+        {
+            if (frozenPlayers.get(Objects.requireNonNull(event.getDamageSource().getCausingEntity()).getUniqueId()) != null)
+            {
                 event.setCancelled(true);
             }
         }
     }
 
     @EventHandler
-    public void PlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event) {
-        if (config.getBoolean("freeze-command.stop-commands")) {
-            if (frozenPlayers.get(event.getPlayer().getUniqueId()) != null) {
+    public void PlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event)
+    {
+        if (config.getBoolean("freeze-command.stop-commands"))
+        {
+            if (frozenPlayers.get(event.getPlayer().getUniqueId()) != null)
+            {
                 event.setCancelled(true);
             }
         }
     }
 
     @EventHandler
-    public void BlockBreakEvent(BlockBreakEvent event) {
-        if (config.getBoolean("freeze-command.stop-break")) {
-            if (frozenPlayers.get(event.getPlayer().getUniqueId()) != null) {
+    public void BlockBreakEvent(BlockBreakEvent event)
+    {
+        if (config.getBoolean("freeze-command.stop-break"))
+        {
+            if (frozenPlayers.get(event.getPlayer().getUniqueId()) != null)
+            {
                 event.setCancelled(true);
             }
         }
     }
 
     @EventHandler
-    public void BlockPlaceEvent(BlockPlaceEvent event) {
-        if (config.getBoolean("freeze-command.stop-place")) {
-            if (frozenPlayers.get(event.getPlayer().getUniqueId()) != null) {
+    public void BlockPlaceEvent(BlockPlaceEvent event)
+    {
+        if (config.getBoolean("freeze-command.stop-place"))
+        {
+            if (frozenPlayers.get(event.getPlayer().getUniqueId()) != null)
+            {
                 event.setCancelled(true);
             }
         }

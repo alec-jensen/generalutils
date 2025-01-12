@@ -6,12 +6,16 @@ import org.bukkit.entity.Player;
 
 import static org.bukkit.Bukkit.getPluginManager;
 
-public class SendMessagePAPI {
-    public static void sendMessagePAPI(Player player, String message) {
-        if (getPluginManager().getPlugin("PlaceholderAPI") != null) {
+public class SendMessagePAPI
+{
+    public static void sendMessagePAPI(Player player, String message)
+    {
+        if (getPluginManager().getPlugin("PlaceholderAPI") != null)
+        {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     PlaceholderAPI.setPlaceholders(player, message)));
-        } else {
+        } else
+        {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
         }
     }
