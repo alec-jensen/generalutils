@@ -9,12 +9,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -26,12 +26,19 @@ import java.util.UUID;
 @CommandAlias("freeze")
 public class FreezeCommand extends BaseCommand implements Listener
 {
+    private static FreezeCommand instance;
     private final HashMap<UUID, Boolean> frozenPlayers;
     FileConfiguration config = Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig();
 
     public FreezeCommand(HashMap<UUID, Boolean> frozenPlayers)
     {
+        instance = instance == null ? this : instance;
         this.frozenPlayers = frozenPlayers;
+    }
+
+    public static FreezeCommand getInstance()
+    {
+        return instance;
     }
 
     @Default
@@ -87,9 +94,14 @@ public class FreezeCommand extends BaseCommand implements Listener
 
             }
         }
+
         if (config.getBoolean("freeze-command.negate-attack"))
         {
-            if (frozenPlayers.get(Objects.requireNonNull(event.getDamageSource().getCausingEntity()).getUniqueId()) != null)
+            Entity cause = event.getDamageSource().getCausingEntity();
+
+            if (cause == null) return;
+
+            if (frozenPlayers.get(cause.getUniqueId()) != null)
             {
                 event.setCancelled(true);
             }

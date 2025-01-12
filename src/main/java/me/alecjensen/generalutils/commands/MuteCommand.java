@@ -24,12 +24,19 @@ import java.util.Objects;
 @CommandAlias("mute")
 public class MuteCommand extends BaseCommand implements Listener
 {
+    private static MuteCommand instance;
     private final GeneralUtils generalUtils;
     FileConfiguration config = Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig();
 
     public MuteCommand(GeneralUtils generalUtils)
     {
+        instance = instance == null ? this : instance;
         this.generalUtils = generalUtils;
+    }
+
+    public static MuteCommand getInstance()
+    {
+        return instance;
     }
 
     @Default

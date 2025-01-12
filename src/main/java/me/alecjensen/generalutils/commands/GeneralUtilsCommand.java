@@ -41,26 +41,12 @@ public class GeneralUtilsCommand extends BaseCommand
     @CommandPermission("generalutils.reload")
     public void onReloadCommand(CommandSender sender)
     {
+        boolean previousBanCommandState = generalUtils.config.getBoolean("ban-utils.custom-ban.enabled");
+
         generalUtils.reloadConfig();
 
-        // code to enable/disable custom ban command (NOT WORKING)
-        // if (config.getBoolean("ban-utils.custom-ban.enabled")) {
-        //     try {
-        //         DynamicCommands dynamicCommands = new DynamicCommands();
-        //         dynamicCommands.registerCommand(generalUtils, generalUtils.banUtils, "ban");
-        //         DynamicCommands.syncCommands();
-        //     } catch (Exception e) {
-        //         e.printStackTrace();
-        //     }
-        // } else {
-        //     PluginCommand cmd = getServer().getPluginCommand("ban");
-        //     DynamicCommands.unRegisterBukkitCommand(cmd);
-        //     try {
-        //         DynamicCommands.syncCommands();
-        //     } catch (Exception e) {
-        //         e.printStackTrace();
-        //     }
-        // }
+        // TODO: Register or unregister the BanUtils command based on the config value
+
         if (sender instanceof Player player)
         {
             if (player.hasPermission("generalutils.reload"))

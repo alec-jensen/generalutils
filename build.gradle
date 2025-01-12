@@ -4,7 +4,17 @@ plugins {
 }
 
 group = 'me.alecjensen'
-version = '0.1.5-alpha'
+
+def getCommitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+version = "0.1.5-${getCommitHash()}-alpha"
 
 repositories {
     mavenCentral()

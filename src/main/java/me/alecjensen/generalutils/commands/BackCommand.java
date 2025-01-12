@@ -20,11 +20,21 @@ import java.util.UUID;
 @CommandAlias("back")
 public class BackCommand extends BaseCommand implements Listener
 {
+    private static BackCommand instance;
     HashMap<UUID, Location> backLocations = new HashMap<>();
     HashMap<UUID, Boolean> teleportsFromSleep = new HashMap<>();
-
     @Dependency
     private GeneralUtils generalUtils;
+
+    public BackCommand()
+    {
+        instance = instance == null ? this : instance;
+    }
+
+    public static BackCommand getInstance()
+    {
+        return instance;
+    }
 
     @Default
     @CommandPermission("generalutils.back")

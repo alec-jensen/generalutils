@@ -1,26 +1,31 @@
 package me.alecjensen.generalutils.commands;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.*;
+import me.alecjensen.generalutils.GeneralUtils;
 import me.alecjensen.generalutils.utils.SendMessagePAPI;
+import org.bukkit.BanEntry;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerKickEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
 import static org.bukkit.Bukkit.getOnlinePlayers;
 
-public class BanUtils implements CommandExecutor, Listener
+@CommandAlias("ban")
+public class BanUtils extends BaseCommand implements Listener
 {
     private static BanUtils instance;
+
+    @Dependency
+    private GeneralUtils generalUtils;
 
     public BanUtils()
     {
@@ -32,14 +37,16 @@ public class BanUtils implements CommandExecutor, Listener
         return instance;
     }
 
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args)
+    @Default
+    @CommandPermission("generalutils.ban")
+    @CommandCompletion("@players")
+    public void onCommand(CommandSender sender, String[] args)
     {
         FileConfiguration config = Bukkit.getPluginManager().getPlugin("GeneralUtils").getConfig();
         if (args.length == 0)
         {
             sender.sendMessage(ChatColor.RED + "You must specify a player!");
-            return true;
+            return;
         }
         String reason;
         if (args.length == 1)
@@ -47,7 +54,7 @@ public class BanUtils implements CommandExecutor, Listener
             if (config.getBoolean("ban-utils.custom-ban.require-reason"))
             {
                 sender.sendMessage(ChatColor.RED + "You must provide a reason!");
-                return true;
+                return;
             } else
             {
                 reason = config.getString("ban-utils.custom-ban.default-reason");
@@ -56,14 +63,16 @@ public class BanUtils implements CommandExecutor, Listener
         {
             reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
         }
+
         Bukkit.getBanList(BanList.Type.NAME).addBan(args[0], reason, null, sender.getName());
+
         Player target = Bukkit.getPlayer(args[0]);
         if (target != null)
         {
             target.kickPlayer(reason);
         }
+
         sender.sendMessage(ChatColor.GREEN + "Successfully banned " + args[0] + " for " + reason + "!");
-        return true;
     }
 
     @EventHandler

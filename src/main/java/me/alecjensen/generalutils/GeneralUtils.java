@@ -1,29 +1,31 @@
 package me.alecjensen.generalutils;
 
+import co.aikar.commands.BaseCommand;
 import co.aikar.commands.PaperCommandManager;
 import me.alecjensen.generalutils.commands.*;
 import me.alecjensen.generalutils.utils.DynamicCommands;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.lang.reflect.Field;
+import java.util.*;
 
 import static org.bukkit.Bukkit.getPluginManager;
 
 public final class GeneralUtils extends JavaPlugin
 {
 
-    public static PaperCommandManager commandManager;
     private static GeneralUtils instance;
+    public PaperCommandManager commandManager;
     public FileConfiguration config = this.getConfig();
     public BanUtils banUtils = new BanUtils();
     public HashMap<UUID, Boolean> frozenPlayers = new HashMap<>();
@@ -61,7 +63,7 @@ public final class GeneralUtils extends JavaPlugin
         commandManager.registerCommand(new KickallCommand());
         commandManager.registerCommand(new StaffChatCommand());
         commandManager.registerCommand(new AnnounceCommand());
-        // TODO: BanUtils
+        commandManager.registerCommand(new BanUtils());
         commandManager.registerCommand(new SuicideCommand());
         commandManager.registerCommand(new ClearChatCommand());
         commandManager.registerCommand(new FreezeCommand(frozenPlayers));
@@ -69,7 +71,8 @@ public final class GeneralUtils extends JavaPlugin
         commandManager.registerCommand(new MuteCommand(this));
         commandManager.registerCommand(new UnmuteCommand(this));
 
-        commandManager.getCommandCompletions().registerAsyncCompletion("frozenPlayers", c -> {
+        commandManager.getCommandCompletions().registerAsyncCompletion("frozenPlayers", c ->
+        {
             List<String> frozenPlayerNames = new ArrayList<>();
             for (UUID uuid : frozenPlayers.keySet())
             {
@@ -82,19 +85,15 @@ public final class GeneralUtils extends JavaPlugin
             return frozenPlayerNames;
         });
 
-        getPluginManager().registerEvents(new BackCommand(), this);
-        getPluginManager().registerEvents(new FreezeCommand(frozenPlayers), this);
-        getPluginManager().registerEvents(new MuteCommand(this), this);
+        // Registering events
+
+        getPluginManager().registerEvents(BackCommand.getInstance(), this);
+        getPluginManager().registerEvents(BanUtils.getInstance(), this);
+        getPluginManager().registerEvents(FreezeCommand.getInstance(), this);
+        getPluginManager().registerEvents(MuteCommand.getInstance(), this);
 
 
-
-        // Unregister ban if custom-ban is disabled in the config.
-
-        if (!config.getBoolean("ban-utils.custom-ban.enabled"))
-        {
-            PluginCommand cmd = this.getCommand("ban");
-            DynamicCommands.unRegisterBukkitCommand(cmd);
-        }
+        // TODO: Register or unregister the BanUtils command based on the config value
 
         // Checking if PAPI is installed
 
