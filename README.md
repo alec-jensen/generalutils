@@ -1,3 +1,5 @@
+GeneralUtils is no longer maintained. It will be replaced by https://github.com/Piston-Works/piston-admin
+
 # generalutils
 General purpose minecraft plugin. Basically essentials without all the bad stuff.
 
